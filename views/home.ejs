@@ -1,0 +1,55 @@
+<% include partials/header.ejs%>
+
+	<%  if (!isAuthenticated){ %>
+		<br>
+		<div class="alert alert-warning">
+		<a href="/login">You must be logged in to view this page</a>
+		</div>
+
+	<%  } else {%>
+	
+	<h1>Hello, <%= user.email %> - welcome to our website!</h1>
+
+  <% tags.forEach(function(tags) { %>
+    <h3><%= tags.tag %></h3>  
+  <% }) %>
+
+  
+	<form id="search" action="/search">
+    <input type="text" id="searchField" name="searchTerm" placeholder="Search for music"> <!-- you need to name your form in order to pick up from server-->
+  </form>   
+
+  
+  <div id="results">
+  </div>
+
+  <script>
+    SC.initialize({
+      client_id: 'ba035e36f9a62aad4c3774144aec6824'
+      // client_id: process.env.SC_CLIENTID 
+    });
+
+    $("#search").on("submit", function(event){
+    	event.preventDefault()
+    	var $field = $("#searchField");
+    	$("#results").empty()    	
+
+    	SC.get('/tracks', { q: $field.val()}, function(tracks) { 
+    		console.log(tracks)
+    		tracks.slice(0,5).forEach(function(track, i){
+          	var $myForm = $("<div class='track'><div id='track" + i + "'></div><form action='/add' method='POST'><input type='hidden' name='trackLink' value = '" + track.permalink_url + "'></input><input type='hidden' name='title' value='" + track.title + "'</input><input type='text' name='tag' placeholder='add a tag'><input type='submit'></input></form></div>");
+            SC.oEmbed(
+            	track.permalink_url, 
+            	{auto_play: false, color: "ff0066"}, 
+            	$myForm.children(0)[0]
+            );
+            console.log($myForm)
+          $("#results").append($myForm);
+    		})
+    	})
+    })
+   </script>
+	<br><br>
+	<a href="/logout" class = "btn btn-danger btn-lg">Log out here</a>
+	<%  }%> 
+<% include partials/footer.ejs%>
