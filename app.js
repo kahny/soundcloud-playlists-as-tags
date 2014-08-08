@@ -55,12 +55,18 @@ app.get('/', function(req,res){
     res.render("index");
   }
   else{
+    db.sequelize
+  .query('SELECT distinct(tag) FROM tracks WHERE "userId" = ' + req.user.id)
+  .success(function(uniqueTags){
+    // Each record will now be mapped to the project's DAO-Factory.
+  //   console.log(projects)
+  // })
     // res.redirect('/home');
-    db.track.findAll({where: {userId: req.user.id} }).success(function(tags){
-  		var uniqueTags = Object.keys(tags.reduce(function(acc, tag){
-        acc[tag.tag] = true;
-        return acc;
-      },{})) //{} seeding first value, obj only have unique keys
+    // db.track.findAll({where: {userId: req.user.id} }).success(function(tags){
+  		// var uniqueTags = Object.keys(tags.reduce(function(acc, tag){
+    //     acc[tag.tag] = true;
+    //     return acc;
+    //   },{})) //{} seeding first value, obj only have unique keys
       console.log(uniqueTags)
       //could also iterate through all of them and filter 
 
