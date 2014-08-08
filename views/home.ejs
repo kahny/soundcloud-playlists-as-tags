@@ -11,7 +11,7 @@
 
 	
   <h1 >SOUNDdrop</h1>
-  <h5 class="left">Search for songs and add tags to create playlists <span class="glyphicon glyphicon-cloud"></span> </h5>
+  <h5 class="left">Search for songs and add #tags to create playlists <span class="glyphicon glyphicon-cloud"></span> </h5>
 
   <div class="hashtags">
   <% tags.forEach(function(tag) { %>
@@ -21,7 +21,7 @@
   <% }) %>
   </div>
 
-	<form id="search" class="search">
+	<form id="search" class="search" class= "form-inline">
     <input type="text" id="searchField" placeholder="Search for music"> 
   </form>   
 
@@ -42,7 +42,7 @@
     	SC.get('/tracks', { q: $field.val()}, function(tracks) { 
     		// console.log(tracks)
     		tracks.slice(0,5).forEach(function(track, i){
-          	var $myForm = $("<div class='track'><div id='track" + i + "'></div><form action='/add' method='POST'><input type='hidden' name='trackLink' value = '" + track.permalink_url + "'></input><input type='hidden' name='title' value='" + track.title + "'</input><input type='text' name='tag' placeholder='add a tag'><input type='submit'></input></form></div>");
+          	var $myForm = $("<div class='track'><div id='track" + i + "'></div><form action='/add' method='POST' class='form-inline' ><input type='hidden' name='trackLink' value = '" + track.permalink_url + "'></input><input type='hidden' name='title' value='" + track.title + "'</input><input type='text' name='tag' class= 'form-control' placeholder='Add #tags'><button class= 'btn btn-default '>Add</button></form></div>");
             SC.oEmbed(
             	track.permalink_url, 
             	{auto_play: false, color: "ff0066"}, 

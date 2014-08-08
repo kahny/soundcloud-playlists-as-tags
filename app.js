@@ -20,7 +20,7 @@ app.use(cookieSession( {
   secret: 'thisismysecretkey',
   name: 'session with cookie data',
   // this is in milliseconds
-  maxage: 3600000
+  maxage: 86400000
   })
 );
 

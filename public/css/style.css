@@ -19,20 +19,11 @@ h1{
 
 body {
 	border: 10px solid;
-    /*background-color: rgb(7,45,223);*/
-    /*background-image: url(http://i.imgur.com/ZTW6fIY.png);*/
-    /*background-image: url(http://i.imgur.com/Ld732yA.png);*/
-    /*background-image: url(http://i.imgur.com/mbCNG6k.png);*/
-    /*background-size: 5%;
-    background-repeat: no-repeat;*/
     margin:5em;
 }
 
 .login {
 	margin:8em 0em ; 
-	/*background-image: url(http://i.imgur.com/y2nB0w3.png);*/
-	/*background-repeat: no-repeat;*/
-	/*background-size: 5%;*/
 }
 
 .index {
@@ -41,13 +32,14 @@ body {
 
 
 .hashtags {
-	margin: 10em;
+	margin: 12em 10em 5em 10em;
 }
 
 .track{
-	/*background-color: rgb(13,255,0);*/
+	/*border: 1px dashed;*/
+	margin: 2.5em 0em;
 }
 
 .search{
-	margin:1em;
+	margin:0em 0em 4em 0em;
 }
