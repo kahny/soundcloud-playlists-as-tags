@@ -159,13 +159,15 @@ app.post('/submit', function(req,res){
 
 app.post('/add', function(req,res){  
   
-  var tags = req.body.tag.split(/\,*\s*\#\s*/)
-
+  var tags = req.body.tag.split(" ").join("").split("#")
+  
   for (var i = 1; i < tags.length; i++){
    db.track.createNewTrack(req.body.trackLink, tags[i], req.body.title, req.user.id);
   }
     res.redirect('/');  
 });
+
+
 
 
 app.delete("/delete/:id", function(req, res) {
