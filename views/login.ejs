@@ -1,5 +1,8 @@
 <% include partials/header.ejs%>
-   <h1>Login </h1>
+   <div class='login'>
+   <img src="http://i.imgur.com/yXAgWfR.png">
+   <h2>Login </h2>
+
 
 	<% if (typeof message !== 'undefined') { %>
 		<p style = "color:red;">
@@ -8,6 +11,7 @@
 	<% } %>
 
 	<br>
+		
 		<form action="/login" method = "post">
 
 			<p>
@@ -21,4 +25,7 @@
 			</p>
 		</form>
 		<a href="/signup">Don't have an account? Create one here</a>	
+	</div class='login'>	
 <% include partials/footer.ejs%>
+
+

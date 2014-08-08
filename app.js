@@ -6,17 +6,21 @@ var express = require("express"),
   cookieSession = require("cookie-session"),  //store session data in a cookie 
   flash = require("connect-flash"),
   app = express(),
+  methodOverride = require("method-override");
   db = require("./models/index");
 
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}) ); 
+app.use(express.static(__dirname + '/public'));
+app.use(methodOverride("_method"));
+
 
 app.use(cookieSession( {
   secret: 'thisismysecretkey',
   name: 'session with cookie data',
   // this is in milliseconds
-  maxage: 360000
+  maxage: 3600000
   })
 );
 
@@ -53,14 +57,22 @@ app.get('/', function(req,res){
   else{
     // res.redirect('/home');
     db.track.findAll({where: {userId: req.user.id} }).success(function(tags){
-  		res.render('home', {
-  			tags: tags, 
+  		var uniqueTags = Object.keys(tags.reduce(function(acc, tag){
+        acc[tag.tag] = true;
+        return acc;
+      },{})) //{} seeding first value, obj only have unique keys
+      console.log(uniqueTags)
+      //could also iterate through all of them and filter 
+
+      res.render('home', {
+  			tags: uniqueTags, 
   			//runs a function to see if the user is authenticated - returns true or false
   			isAuthenticated: req.isAuthenticated(),
   			//this is our data from the DB which we get from deserializing
   			user: req.user 
   		})
   	})
+
   }
 });
 
@@ -74,6 +86,7 @@ app.get("/tags/:tag", function(req,res){
     // res.redirect('/home');
     db.track.findAll({where: {userId: req.user.id, tag: tag} }).success(function(foundSongs){
   		res.render('tag', {
+  			tag: tag,
   			songs: foundSongs, 
   			//runs a function to see if the user is authenticated - returns true or false
   			isAuthenticated: req.isAuthenticated(),
@@ -85,20 +98,12 @@ app.get("/tags/:tag", function(req,res){
 });
 
 
-app.get('/home', function(req,res){
-  res.render("home", {
-  //runs a function to see if the user is authenticated - returns true or false
-  isAuthenticated: req.isAuthenticated(),
-  //this is our data from the DB which we get from deserializing
-  user: req.user
-  });
-});
 
-// app.use(flash());
+
 
 app.get('/login', function(req,res){
   // check if the user is logged in
-  if(!req.user) {
+  if(!req.user) {	
     res.render("login", {message: req.flash('loginMessage'), email: ""});
   }
   else{
@@ -111,7 +116,7 @@ app.get('/login', function(req,res){
 
 // authenticate users when logging in - no need for req,res passport does this for us
 app.post('/login', passport.authenticate('local', {
-  successRedirect: '/home', 
+  successRedirect: '/', 
   failureRedirect: '/login', 
   failureFlash: true
 }));
@@ -128,7 +133,7 @@ app.get('/signup', function(req,res){
     res.render("signup", { email: ""});
   }
   else{
-    res.redirect('/home');
+    res.redirect('/');
   }
 });
 
@@ -145,28 +150,26 @@ app.post('/submit', function(req,res){
 });
 
 
-app.get('/search', function(req,res){
-
-  var query = req.query.searchTerm;
-  // console.log(query) 
-	res.render('search', {
-		taco: query,
-		isAuthenticated: req.isAuthenticated(),
-		user: req.user
-	});       
-})
 
 app.post('/add', function(req,res){  
-  console.log(req.body)
-  console.log("USER")
-  console.log(req.user)
-  console.log('hi')
-  db.track.createNewTrack(req.body.trackLink, req.body.tag, req.body.title, req.user.id);
   
-  // console.log(query)
+  var tags = req.body.tag.split(/\,*\s*\#\s*/)
+
+  for (var i = 1; i < tags.length; i++){
+   db.track.createNewTrack(req.body.trackLink, tags[i], req.body.title, req.user.id);
+  }
+    res.redirect('/');  
 });
 
 
-app.listen(3000, function(){
+app.delete("/delete/:id", function(req, res) {
+  var id = parseInt(req.params.id);
+  console.log(id)
+  db.track.deleteTrack(id);
+  res.redirect("/") //change this to the specific tag page 
+})
+
+
+app.listen(process.env.PORT || 3000, function(){
   console.log("local hosties");  
 });

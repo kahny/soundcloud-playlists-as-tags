@@ -8,25 +8,30 @@
 
 	<%  } else {%>
 	
-	<h1>Hello, <%= user.email %> - welcome to our website!</h1>
 
-  <% tags.forEach(function(tags) { %>
-    <h3><%= tags.tag %></h3>  
+	
+  <h1 >SOUNDdrop</h1>
+  <h5 class="left">Search for songs and add tags to create playlists <span class="glyphicon glyphicon-cloud"></span> </h5>
+
+  <div class="hashtags">
+  <% tags.forEach(function(tag) { %>
+    
+    <h3 class="inline"><a href='tags/<%= tag %>'>#<%= tag %></a></h3>  
+    
   <% }) %>
+  </div>
 
-  
-	<form id="search" action="/search">
-    <input type="text" id="searchField" name="searchTerm" placeholder="Search for music"> <!-- you need to name your form in order to pick up from server-->
+	<form id="search" class="search">
+    <input type="text" id="searchField" placeholder="Search for music"> 
   </form>   
 
-  
+
   <div id="results">
   </div>
 
   <script>
     SC.initialize({
       client_id: 'ba035e36f9a62aad4c3774144aec6824'
-      // client_id: process.env.SC_CLIENTID 
     });
 
     $("#search").on("submit", function(event){
@@ -35,21 +40,31 @@
     	$("#results").empty()    	
 
     	SC.get('/tracks', { q: $field.val()}, function(tracks) { 
-    		console.log(tracks)
+    		// console.log(tracks)
     		tracks.slice(0,5).forEach(function(track, i){
           	var $myForm = $("<div class='track'><div id='track" + i + "'></div><form action='/add' method='POST'><input type='hidden' name='trackLink' value = '" + track.permalink_url + "'></input><input type='hidden' name='title' value='" + track.title + "'</input><input type='text' name='tag' placeholder='add a tag'><input type='submit'></input></form></div>");
             SC.oEmbed(
             	track.permalink_url, 
             	{auto_play: false, color: "ff0066"}, 
-            	$myForm.children(0)[0]
+            	$myForm.children(0)[0] 
             );
-            console.log($myForm)
+            // console.log($myForm). 
           $("#results").append($myForm);
     		})
     	})
     })
    </script>
+
+   <br><br>
+
 	<br><br>
-	<a href="/logout" class = "btn btn-danger btn-lg">Log out here</a>
-	<%  }%> 
+
+  <div class="left">
+  <h6><%= user.email %> </h6>
+	<a href="/logout" class = "btn btn-default btn-lg"><span class="glyphicon glyphicon-cloud"></span> Log out here</a>
+	</div>
+
+  <br><br>
+  <%  }%> 
+
 <% include partials/footer.ejs%>

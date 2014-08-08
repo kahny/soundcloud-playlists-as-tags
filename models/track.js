@@ -15,15 +15,19 @@ function Track(sequelize, DataTypes){
           Track.belongsTo(db.user);
         },
         createNewTrack: function(tracklink, tag, title, user) {
-            Track.create({
+            Track.findOrCreate({
               track_link: tracklink,
               tag: tag,
               name: title,
               userId: user 
-
-        })  //close create new ueser 
-      }
-    } 
+        })    
+      },//close createNewTrack
+        deleteTrack: function(trackId) {
+          Track.destroy({
+            id:trackId
+          })
+        }//close deleteTrack
+    }//close class methods  
   
 })
 return Track;
