@@ -3,7 +3,7 @@ var express = require("express"),
   passport = require("passport"),
   passportLocal = require("passport-local"),
   cookieParser = require("cookie-parser"),
-  cookieSession = require("cookie-session"),  
+  cookieSession = require("cookie-session"),  //store session data in a cookie 
   flash = require("connect-flash"),
   app = express(),
   methodOverride = require("method-override");
@@ -55,11 +55,21 @@ app.get('/', function(req,res){
     res.render("index");
   }
   else{
-    //get distinct tags to only display those tags as link 
     db.sequelize
-    .query('SELECT distinct(tag) FROM tracks WHERE "userId" = ' + req.user.id)
-    .success(function(uniqueTags){
-      console.log(uniqueTags) //returns tags as an array with tag objects in the form of tag: 'tag'
+  .query('SELECT distinct(tag) FROM tracks WHERE "userId" = ' + req.user.id)
+  .success(function(uniqueTags){
+    // Each record will now be mapped to the project's DAO-Factory.
+  //   console.log(projects)
+  // })
+    // res.redirect('/home');
+    // db.track.findAll({where: {userId: req.user.id} }).success(function(tags){
+  		// var uniqueTags = Object.keys(tags.reduce(function(acc, tag){
+    //     acc[tag.tag] = true;
+    //     return acc;
+    //   },{})) //{} seeding first value, obj only have unique keys
+      console.log(uniqueTags)
+      //could also iterate through all of them and filter 
+
       res.render('home', {
   			tags: uniqueTags, 
   			//runs a function to see if the user is authenticated - returns true or false
@@ -68,27 +78,37 @@ app.get('/', function(req,res){
   			user: req.user 
   		})
   	})
+
   }
 });
 
-//make sure user is logged in and then display the tag songs
+//display the tag songs 
 app.get("/tags/:tag", function(req,res){
   var tag = req.params.tag;
   if(!req.user) {
     res.render("index");
   }
   else{
+    // res.redirect('/home');
     db.track.findAll({where: {userId: req.user.id, tag: tag} }).success(function(foundSongs){
   		res.render('tag', {
   			tag: tag,
   			songs: foundSongs, 
+  			//runs a function to see if the user is authenticated - returns true or false
+  			isAuthenticated: req.isAuthenticated(),
+  			//this is our data from the DB which we get from deserializing
+  			user: req.user 
   		})
   	})
   } 
 });
 
-//login page 
+
+
+
+
 app.get('/login', function(req,res){
+  // check if the user is logged in
   if(!req.user) {	
     res.render("login", {message: req.flash('loginMessage'), email: ""});
   }
@@ -98,7 +118,9 @@ app.get('/login', function(req,res){
 });
 
 
-// authenticate users when logging in - no need for req.res passport does this for us
+
+
+// authenticate users when logging in - no need for req,res passport does this for us
 app.post('/login', passport.authenticate('local', {
   successRedirect: '/', 
   failureRedirect: '/login', 
@@ -134,10 +156,11 @@ app.post('/submit', function(req,res){
 });
 
 
-//when adding hashtags, separate them out and create a new line in tracks database for each
+
 app.post('/add', function(req,res){  
   
   var tags = req.body.tag.split(" ").join("").split("#")
+  
 
   for (var i = 1; i < tags.length; i++){
    db.track.createNewTrack(req.body.trackLink, tags[i], req.body.title, req.user.id);
@@ -146,7 +169,8 @@ app.post('/add', function(req,res){
 });
 
 
-//delete a track by the id the track/tag listed on the track table
+
+
 app.delete("/delete/:id", function(req, res) {
   var id = parseInt(req.params.id);
   console.log(id)
