@@ -14,3 +14,4 @@ Rather than the typical format of creating individual playlists, I wanted to ins
 
 ##Find it here:
 http://sounddrop.herokuapp.com/
+![Screenshots](https://raw.github.com/kahny/soundcloud-playlists-as-tags/master/markdown_images/sounddrop-tag.png)
