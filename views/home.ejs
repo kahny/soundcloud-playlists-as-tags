@@ -1,45 +1,46 @@
 <% include partials/header.ejs%>
 
-	
-  <h1 >SOUNDdrop</h1>
+
+  <h1><a class="sounddrop-header" href="/">SOUNDdrop</a></h1>
   <h5 class="left">Search for songs and add #tags to create playlists <span class="glyphicon glyphicon-cloud"></span> </h5>
 
+  <!-- display hashtags -->
   <div class="hashtags">
   <% tags.forEach(function(tag) { %>
-    
-    <h3 class="inline"><a href='tags/<%= tag.tag %>'>#<%= tag.tag %></a></h3>  
-    
+    <h3 class="inline"><a href='tags/<%= tag.tag %>'>#<%= tag.tag %></a></h3>
   <% }) %>
   </div>
 
+  <!-- search bar -->
 	<form id="search" class="search" class= "form-inline">
-    <input type="text" id="searchField" placeholder="Search for music"> 
-  </form>   
+    <input type="text" id="searchField" placeholder="Search for music">
+  </form>
 
-
-  <div id="results">
+  <!-- search results -->
+  <div id="results" class="row">
   </div>
 
+  <!-- search functionality and adding search results to results div above -->
   <script>
     SC.initialize({
       client_id: 'ba035e36f9a62aad4c3774144aec6824'
     });
-// search for tracks and populate it on the page 
+// search for tracks and populate it on the page
     $("#search").on("submit", function(event){
     	event.preventDefault()
     	var $field = $("#searchField");
-    	$("#results").empty()    	
+    	$("#results").empty()
 
-    	SC.get('/tracks', { q: $field.val()}, function(tracks) { 
+    	SC.get('/tracks', { q: $field.val()}, function(tracks) {
     		console.log(tracks)
     		tracks.slice(0,5).forEach(function(track, i){
-          	var $myForm = $("<div class='track'><div id='track" + i + "'></div><form action='/add' method='POST' class='form-inline' ><input type='hidden' name='trackLink' value = '" + track.permalink_url + "'></input><input type='hidden' name='title' value='" + track.title + "'</input><input type='text' name='tag' class= 'form-control' placeholder='Add #tags'><button class= 'btn btn-default '>Add</button></form></div>");
+          	var $myForm = $("<div class='track'><div id='track" + i + "'></div><form action='/add' method='POST' class='form-inline' ><input type='hidden' name='trackLink' value = '" + track.permalink_url + "'></input><input type='hidden' name='title' value='" + track.title + "'</input><input type='text' name='tag' class= 'form-control' placeholder='add #tags (ex: #flower)'><button class= 'btn btn-default '>Add</button></form></div>");
             SC.oEmbed(
-            	track.permalink_url, 
-            	{auto_play: false, color: "ff0066"}, 
-            	$myForm.children(0)[0] 
+            	track.permalink_url,
+            	{auto_play: false, color: "ff0066"},
+            	$myForm.children(0)[0]
             );
-            // console.log($myForm). 
+            // console.log($myForm).
           $("#results").append($myForm);
     		})
     	})
@@ -48,14 +49,12 @@
 
    <br><br>
 
-	<br><br>
-
   <div class="left">
-  <h6><%= user.email %> </h6>
+  <!-- user info and logout -->
+  <h6> <%= user.email %></h6>
 	<a href="/logout" class = "btn btn-default btn-lg"><span class="glyphicon glyphicon-cloud"></span> Log out here</a>
 	</div>
 
   <br><br>
-  
 
 <% include partials/footer.ejs%>

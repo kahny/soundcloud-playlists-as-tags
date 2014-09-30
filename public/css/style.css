@@ -1,13 +1,15 @@
 .inline {
-	display:inline;	
+	display:inline;
 	color: black;
-	/*background:rgb(13,255,0);*/
 }
 
 h1{
 	text-align: left;
 	color:black;
 
+}
+.sounddrop-header{
+	color:#000;
 }
 .left{
 	text-align:left;
@@ -17,13 +19,8 @@ h1{
 	text-align:right;
 }
 
-body {
-	border: 10px solid;
-    margin:5em;
-}
-
 .login {
-	margin:8em 0em ; 
+	margin:8em 0em ;
 }
 
 .index {
@@ -36,10 +33,19 @@ body {
 }
 
 .track{
-	/*border: 1px dashed;*/
 	margin: 2.5em 0em;
 }
 
 .search{
 	margin:0em 0em 4em 0em;
+}
+
+/*outer black box styling*/
+.outer-body{
+	border: 10px solid;
+  margin:3.5em 0em;
+	color:black;
+}
+.inner-body{
+	margin:1em 3.5em;
 }
