@@ -45,7 +45,9 @@ h1{
 	border: 10px solid;
   margin:3.5em 0em;
 	color:black;
+	padding: 1em 3.5em;
 }
-.inner-body{
-	margin:1em 3.5em;
-}
+
+/*@media screen and (max-width:480px) {
+  .outer-body { border:none;}
+  }*/
