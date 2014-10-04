@@ -48,6 +48,6 @@ h1{
 	padding: 1em 3.5em;
 }
 
-/*@media screen and (max-width:480px) {
+@media screen and (max-width:480px) {
   .outer-body { border:none;}
-  }*/
+  }
