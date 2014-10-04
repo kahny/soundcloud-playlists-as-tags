@@ -39,7 +39,7 @@
 }
 
 
-@media screen and (max-width:480px) {
+@media screen and (max-width:640px) {
   .outer-body {
 		margin:.5em;
 		padding:.5em 1.em;
