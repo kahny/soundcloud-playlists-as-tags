@@ -3,53 +3,51 @@
 	color: black;
 }
 
-h1{
-	text-align: left;
-	color:black;
-	background-color:black;
-
+/*spacing between header and tag line*/
+.tag-line{
+	margin-top:-1em;
 }
 .sounddrop-header{
 	color:#000;
-}
-.left{
-	text-align:left;
+	margin-top:-0.5em;
 }
 
-.right{
-	text-align:right;
+.login-signup {
+	margin-top: 15%;
+	margin-bottom: 15%;
 }
 
-.login {
-	margin:8em 0em ;
-}
-
-.index {
-	margin: 15em 0em;
-}
-
-
-.hashtags {
-	margin: 12em 10em 5em 10em;
-}
-
-.track{
-	margin: 2.5em 0em;
-}
-
-.search{
-	margin:0em 0em 4em 0em;
+.home-page{
+	margin: 20% 0%;
 }
 
 /*outer black box styling*/
+
+.hashtags{
+	margin: 9em 0em 4em 0em;
+}
+
+.search-bar{
+	margin:0em 0em 3em 0em;
+
+}
 .outer-body{
 	border: 10px solid;
-  margin:3.5em 0em;
+  margin:3.5em 5em;
 	color:black;
-	padding: 1em 3.5em;
+	padding: 1em 3em;
 }
 
 
 @media screen and (max-width:480px) {
-  .outer-body { border:none;}
+  .outer-body {
+		margin:.5em;
+		padding:.5em 1.em;
   }
+  .home-page {
+		margin: 70% 0%;
+  }
+  .login-signup{
+  	margin: 70% 0%;
+  }
+}

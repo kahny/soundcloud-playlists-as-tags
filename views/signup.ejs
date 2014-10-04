@@ -1,26 +1,27 @@
 <% include partials/header.ejs%>
-<div class='login'>
-   <img src="http://i.imgur.com/yXAgWfR.png">
-   	<h2> Sign Up</h2>
-	
-		<% if(typeof message !== 'undefined') {%>
-		<div class="alert alert-danger">
-		<%= message %>
-		</div>
-		<% }%>
-	
-<br>
-<form action="/submit" method = "post">
-	<p>
-		<label for="email">Email: </label> <input type="text" name="email" id="email" autofocus value = <%=email %>>
-	</p>
-	<p>
-	<label for="password">Password: </label> <input type="password" name="password" id="password">
-	</p>
-	<p>
-	<input type="submit" value="Sign up!" class = "btn btn-primary">
-	</p>
-	<a href="/login">Already have an account? Log in here</a>
-</form>
-</div>
+	<div class='row text-center login-signup'>
+	   <img src="http://i.imgur.com/yXAgWfR.png">
+	   	<h2> Sign Up</h2>
+
+		<!-- error flash message -->
+			<% if(typeof message !== 'undefined') {%>
+			<div class="alert alert-danger">
+			<%= message %>
+			</div>
+			<% }%>
+
+		<!-- sign up form -->
+		<form action="/submit" method = "post">
+			<p>
+				</label> <input type="text" name="email" id="email" placeholder="email"autofocus value = <%=email %>>
+			</p>
+			<p>
+				<input type="password" name="password" id="password" placeholder="password">
+			</p>
+			<p>
+			<input type="submit" value="Sign up!" class = "btn btn-primary">
+			</p>
+			<a href="/login">Already have an account? Log in here</a>
+		</form>
+	</div>
 <% include partials/footer.ejs%>

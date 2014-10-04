@@ -1,31 +1,30 @@
 <% include partials/header.ejs%>
-   <div class='login'>
-   <img src="http://i.imgur.com/yXAgWfR.png">
-   <h2>Login </h2>
 
+  <div class='row text-center login-signup'>
+  	<img src="http://i.imgur.com/yXAgWfR.png">
+  	<h2>Log In </h2>
 
-	<% if (typeof message !== 'undefined') { %>
-		<p style = "color:red;">
-		<%= message %>
-		</p>
-	<% } %>
+	<!-- error flash message -->
+		<% if (typeof message !== 'undefined') { %>
+			<p style = "color:red;">
+			<%= message %>
+			</p>
+		<% } %>
 
-	<br>
-		
+	<!-- login form -->
 		<form action="/login" method = "post">
-
 			<p>
-				<label for="user">Email:</label> <input type="text" name="email" id="user" autofocus value = <%=email %>>
+				<input type="text" name="email" id="user" placeholder="email" autofocus value = <%=email %>>
 			</p>
 			<p>
-				<label for="pass">Password:</label> <input type="password" name="password" id="pass">
+				<input type="password" name="password" id="pass" placeholder="password">
 			</p>
 			<p>
 				<input type="submit" value="Log In" class ="btn btn-primary ">
 			</p>
 		</form>
-		<a href="/signup">Don't have an account? Create one here</a>	
-	</div class='login'>	
+		<a href="/signup">Don't have an account? Create one here</a>
+	</div>
 <% include partials/footer.ejs%>
 
 
