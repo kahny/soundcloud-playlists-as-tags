@@ -6,6 +6,7 @@
 h1{
 	text-align: left;
 	color:black;
+	background-color:black;
 
 }
 .sounddrop-header{
@@ -47,6 +48,7 @@ h1{
 	color:black;
 	padding: 1em 3.5em;
 }
+
 
 @media screen and (max-width:480px) {
   .outer-body { border:none;}
